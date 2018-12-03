@@ -21,10 +21,17 @@ func loadSecret(authInfo *TwitterSecret) {
 	authInfo.AccessTokenSecret = os.Getenv("ACCESS_TOKEN_SECRET")
 }
 
-func main() {
+func getAPI() *anaconda.TwitterApi {
 	var authInfo TwitterSecret
+	loadSecret(&authInfo)
+
 	anaconda.SetConsumerKey(authInfo.ConsumerKey)
 	anaconda.SetConsumerKey(authInfo.ConsumerSecret)
 	api := anaconda.NewTwitterApi(authInfo.AccessToken, authInfo.AccessTokenSecret)
-	fmt.Printf("%+v", api)
+
+	return api
+}
+
+func main() {
+	api := getAPI()
 }
